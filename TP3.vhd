@@ -10,7 +10,7 @@ entity calculadora is
         opr : in std_logic_vector(1 downto 0);
         input_opr : in std_logic;
         reset : in std_logic;
-        clk : in std_logic_;
+        clk : in std_logic;
         res : out std_logic_vector(7 downto 0)
 
     );
@@ -34,26 +34,28 @@ begin
                 end if;
                 if rising_edge(input_opr) then
                     case opr is
-                        when "00"
-                        result <= to_integer(unsigned(number_1))*to_integer(unsigned(number_2));
-                        when "01"   
-                        result <=to_integer(unsigned(number_1))/to_integer(unsigned(number_2));
-                        when "10"
-                        result <=to_integer(unsigned(number_1))+to_integer(unsigned(number_2));
-                        when "11"
-                        result <= to_integer(unsigned(number_1))-to_integer(unsigned(number_2));
+                        when "00" =>
+                        result <= std_logic_vector(to_integer(unsigned(number_1))*to_integer(unsigned(number_2)));
+                        when "01" =>  
+                        result <=std_logic_vector(to_integer(unsigned(number_1))/to_integer(unsigned(number_2)));
+                        when "10" =>
+                        result <=std_logic_vector(to_integer(unsigned(number_1))+to_integer(unsigned(number_2)));
+                        when "11" =>
+                        result <= std_logic_vector(to_integer(unsigned(number_1))-to_integer(unsigned(number_2)));
                     end case;
-                    res = std_logic_vector(to_unsigned(result,8));
+                    res <= std_logic_vector(to_unsigned(result,8));
                     number_1 <= std_logic_vector(to_unsigned(result,8));
                 end if;
                 if rising_edge(reset) then
                     number_1 <= null;
                     number_2 <= null;
-                    opr <= null;
+                    -- opr <= null;
                     result <=null;
+                end if;
             end if;
-        end process calcula;
-end
+        end process;
+    
+end behavior;
 
 
 
